@@ -1,0 +1,23 @@
+# mini-SWE-agent v2 -> vitals serve integration overrides.
+#
+# Usage (merge order matters: stock textbased config first, then this file):
+#   vitals serve --gguf <model.gguf> --port 8033 [--capture-layers 5,11] &
+#   mini -c mini_textbased.yaml -c integrations/mini_swe_agent/vitals.yaml \
+#        -t "your task" -y -o traj.json
+#
+# This verified example uses mini-SWE-agent's text-based protocol, which parses
+# shell blocks from plain text. Observations arrive as user-role messages with
+# <returncode>/<output> markup. Vitals classifies those messages as observation
+# regions and derives error status from the recorded exit code.
+agent:
+  step_limit: 20
+  cost_limit: 0  # disable cost ceiling; local model has no meaningful $ cost
+model:
+  model_class: litellm_textbased
+  model_name: openai/vitals-local  # provider prefix "openai/" routes litellm to api_base
+  cost_tracking: ignore_errors     # our model isn't in litellm's price registry
+  model_kwargs:
+    api_base: http://127.0.0.1:8033/v1
+    api_key: vitals
+    temperature: 0.6
+    max_tokens: 2048
