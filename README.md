@@ -10,11 +10,9 @@ where the model looked, which sections drove a decision, and which turns look wr
 - **Read maps.** For each section and turn: read lift, peak lift with the hottest line, consult ratio and contrast.
   Did the agent revisit the completion checklist near the end? Does it read one line of a long policy and skip the
   rest? Does it consult the label list when it is unsure?
-- **Monitoring.** Label-free checks on every tool call (low-confidence arguments, values found nowhere in the
-  context, section drift), behavior probes trained in seconds on labeled decisions, and for every flag an
+- **Monitoring.** Label-free checks and behavior probes trained in seconds on labeled decisions, and for every flag an
   explanation that shows the read map and the probe split by section side by side.
-- **Explanations.** Exact ablation of the top sections at a decision: which sections pushed the action, which way,
-  and how far.
+- **Explanations.** 
 
 Sections are the unit of everything reported. The harness can declare them, `vitals annotate` derives them from a
 prompt file, and without either, automatic sections cover the system prompt by heading, each tool schema, each user
@@ -119,9 +117,4 @@ Each architecture needs a verified graph-node map (`vitals/engine/nodes.py`). Se
 
 ## Status
 
-Research software, pre-1.0. Tested with Qwen3.5 and Qwen3.6 GGUF models from 0.8B to 27B (bf16 and
-llama.cpp quantizations), Muse Glimmer 30B and GLM-5.3-Flash. The engine tests check that an empty capture
-configuration reproduces stock llama.cpp token streams, and the replay tests compare offline measurements with live
-capture.
-
-MIT License.
+Pre-alpha research software!
